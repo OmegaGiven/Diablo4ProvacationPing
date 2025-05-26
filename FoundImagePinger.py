@@ -1,3 +1,18 @@
+import subprocess
+import sys
+
+# Function to ensure required packages are installed
+def install_requirements():
+    required_packages = ["opencv-python", "numpy", "mss"]
+    for package in required_packages:
+        try:
+            __import__(package.replace("-", "_"))  # Check if installed
+        except ImportError:
+            print(f"Installing {package}...")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+install_requirements()  # Install missing packages before running the script
+
 try:
     import cv2
     import numpy as np
@@ -5,8 +20,21 @@ try:
     import winsound
     import time  # For cooldown handling
 
-    # Load reference image (DO NOT resize)
-    reference = cv2.imread("20Provacation.png", cv2.IMREAD_COLOR)
+    import os
+
+    # Dynamically get the script's directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(script_dir, "ReferenceImage.png")
+
+    # Now OpenCV will correctly find the image
+    reference = cv2.imread(image_path, cv2.IMREAD_COLOR)
+
+    # Check if the image loaded correctly
+    if reference is None:
+        raise FileNotFoundError(f"Error: '{image_path}' not found!")
+
+    if reference is None:
+        raise FileNotFoundError("Reference image not found! Check the path.")
 
     monitor_number = 1  # Adjust for your target monitor
     match_count = 0  # Tracks consecutive matches
@@ -69,8 +97,8 @@ try:
 
         cv2.destroyAllWindows()
 
-
     input("Press any button to close")
+
 except Exception as e:
     print(f"Error: {e}")
     input("Press Enter to exit...")
