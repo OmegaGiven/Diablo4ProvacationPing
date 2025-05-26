@@ -1,18 +1,4 @@
 try:
-
-
-    import subprocess
-    import sys
-
-    def install_requirements():
-        try:
-            import numpy  # Example check
-        except ImportError:
-            print("Installing required packages...")
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-
-    install_requirements()
-
     import cv2
     import numpy as np
     import mss
