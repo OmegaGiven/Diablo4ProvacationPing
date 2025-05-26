@@ -67,3 +67,6 @@ with mss.mss() as sct:
             break
 
     cv2.destroyAllWindows()
+
+
+input("Press any button to close")
